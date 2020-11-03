@@ -1,14 +1,13 @@
 <?php
 
-
 namespace App;
 
 class Item
 {
 
-    var $name;
-    var $sellIn;
-    var $quality;
+    protected string $name;
+    protected int $sellIn;
+    protected int $quality;
 
     public function __construct(
         $name,
@@ -47,6 +46,18 @@ class Item
 
     public function setQuality($quality)
     {
+        if($quality < 0) $quality = 0;
+        if($quality > 50) $quality = 50;
         $this->quality = $quality;
+    }
+
+    public function updateQuality()
+    {
+        $currentQuality = $this->getQuality();
+        if($this->getSellIn() > 0) $this->setQuality($currentQuality - 1);
+        else $this->setQuality($currentQuality - 2);
+
+        $currentSellIn = $this->getSellIn();
+        $this->setSellIn($currentSellIn - 1);
     }
 }
